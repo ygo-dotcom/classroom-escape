@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>교실용 방탈출 — 디지털 단서 허브</title>
+<style>
+  :root{--bg:#0f1724;--card:#0b1220;--accent:#10b981;--muted:#9ca3af;color-scheme:dark}
+  body{font-family:Inter,system-ui,Segoe UI,Roboto,'Noto Sans KR',sans-serif;background:linear-gradient(135deg,#071226,#021018);color:#e6eef6;margin:0;padding:24px}
+  header{display:flex;gap:16px;align-items:center}
+  h1{margin:0;font-size:20px}
+  .nav{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .nav a{background:#07202a;padding:8px 10px;border-radius:8px;color:#9fe7c7;text-decoration:none}
+  .page{display:none;padding:18px;margin-top:18px;background:rgba(255,255,255,0.02);border-radius:12px}
+  .page.active{display:block}
+  .card{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;margin-bottom:12px}
+  input[type=text]{padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);width:200px}
+  button{background:var(--accent);border:none;color:#052017;padding:8px 10px;border-radius:8px;cursor:pointer}
+  pre{background:#02131b;padding:12px;border-radius:8px;overflow:auto}
+  .hint{color:var(--muted);font-size:13px}
+  .digit{font-weight:700;color:#ffd166}
+  footer{margin-top:18px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>교실 방탈출 — 디지털 단서 허브 (10페이지)</h1>
+    <div class="hint">난이도: 조금 어려움 · 각 페이지는 하나의 퍼즐로 풀면 숫자 조각(혹은 힌트)을 줍니다. 최종 자물쇠는 4자리(1~9)입니다.</div>
+  </div>
+</header>
+<nav class="nav">
+  <a href="#p1" onclick="show('p1')">Page 1 · 색/달력(디지털 락)</a>
+  <a href="#p2" onclick="show('p2')">Page 2 · 유니코드 퍼즐</a>
+  <a href="#p3" onclick="show('p3')">Page 3 · 격자/관찰</a>
+  <a href="#p4" onclick="show('p4')">Page 4 · 시저/문자열</a>
+  <a href="#p5" onclick="show('p5')">Page 5 · 파일명 힌트</a>
+  <a href="#p6" onclick="show('p6')">Page 6 · 수학모듈 퍼즐</a>
+  <a href="#p7" onclick="show('p7')">Page 7 · 문장 조각 정렬</a>
+  <a href="#p8" onclick="show('p8')">Page 8 · QR 연결(구글폼 모사)</a>
+  <a href="#p9" onclick="show('p9')">Page 9 · 합성 힌트</a>
+  <a href="#p10" onclick="show('p10')">Page 10 · 최종 디지털 자물쇠</a>
+</nav>
+
+<!-- PAGE 1 -->
+<section id="p1" class="page active">
+  <div class="card">
+    <h2>Page 1 — 색과 달력(초기 힌트)</h2>
+    <p>실물 단서에 <strong>색 스티커</strong> 네 개가 붙어있습니다. 각 색은 달력의 특정 요일(월~일)와 매핑되어 있습니다. 달력 표에서 해당 색의 칸의 '일자'의 마지막 자리 숫자를 차례로 적어보세요. 그 네 자리 중 하나가 최종 숫자입니다.</p>
+    <div class="hint">교사용: 교실에 달력(또는 인쇄물)을 붙이고 몇 개의 날짜를 색표시하세요. 색→숫자 대응을 실물단서에 숨기면 됩니다.</div>
+    <div class="card">
+      <p><strong>테스트 입력(연습):</strong> 색 순서 입력(영어): <input id="p1in" type="text" placeholder="red,blue,green,yellow" /> <button onclick="p1check()">확인</button></p>
+      <div id="p1out" class="hint"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 -->
+<section id="p2" class="page">
+  <div class="card">
+    <h2>Page 2 — 유니코드/자모 퍼즐</h2>
+    <p>실물 단서에 아래와 같은 유니코드 시퀀스가 있습니다. 이 유니코드를 문자로 변환하고, 마지막 글자의 '자모 수'를 계산해 한 자리 숫자를 얻으세요.</p>
+    <pre>U+C0AC U+D574 U+AC00 U+B2E4</pre>
+    <div class="hint">예: "한국어"를 유니코드로 바꿔보고, 글자 하나하나의 자모 수를 계산해야 합니다. (연습용 변환검색 허용)</div>
+    <div>
+      <input id="p2in" type="text" placeholder="마지막 글자 자모 수" /> <button onclick="p2check()">확인</button>
+      <div id="p2out" class="hint"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 -->
+<section id="p3" class="page">
+  <div class="card">
+    <h2>Page 3 — 격자 관찰 퍼즐</h2>
+    <p>교실에 4×4 그림 격자를 붙여두세요. 격자의 규칙을 해석해 한 자리 숫자를 구합니다. (예: 특정 기호의 총 등장수 × 행에 따른 가중치)</p>
+    <div class="hint">교사용: 인쇄물(격자)과 함께 단서 종이로 '행 가중치'의 힌트를 제공하세요.</div>
+    <p><em>테스트 입력:</em> <input id="p3in" type="text" placeholder="숫자 입력"/> <button onclick="p3check()">확인</button></p>
+    <div id="p3out" class="hint"></div>
+  </div>
+</section>
+
+<!-- PAGE 4 -->
+<section id="p4" class="page">
+  <div class="card">
+    <h2>Page 4 — 시저/문자열 변환</h2>
+    <p>실물에 'ENCRYPT: KHOOR' 같은 문자열을 붙여두세요. 시저 암호(shift)를 풀면 한국어로 된 짧은 힌트가 나옵니다. 그 힌트에서 한 자리 숫자를 도출하세요.</p>
+    <div class="card">
+      <input id="p4in" type="text" placeholder="해독된 문자열에서 숫자"/> <button onclick="p4check()">확인</button>
+      <div id="p4out" class="hint"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 -->
+<section id="p5" class="page">
+  <div class="card">
+    <h2>Page 5 — 파일명/이미지 메타데이터 힌트</h2>
+    <p>실물 단서에는 사진이 있고, 그 사진의 파일명(또는 URL 끝부분)이 다음 단서를 암시합니다. 예: <code>bookshelf_left_third_07.jpg</code> → 07은 숫자 파편일 수 있습니다.</p>
+    <p><input id="p5in" type="text" placeholder="파일명에서 숫자 추출"/> <button onclick="p5check()">확인</button></p>
+    <div id="p5out" class="hint"></div>
+  </div>
+</section>
+
+<!-- PAGE 6 -->
+<section id="p6" class="page">
+  <div class="card">
+    <h2>Page 6 — 모듈/나머지 계산</h2>
+    <p>QR 페이지/실물 단서에서 얻은 큰 수를 특정 모듈로 나누고, 나머지를 한 자리로 사용하세요. (예: n % 9)</p>
+    <p><input id="p6in" type="text" placeholder="나머지 숫자 입력"/> <button onclick="p6check()">확인</button></p>
+    <div id="p6out" class="hint"></div>
+  </div>
+</section>
+
+<!-- PAGE 7 -->
+<section id="p7" class="page">
+  <div class="card">
+    <h2>Page 7 — 문장 조각 정렬</h2>
+    <p>실물에서 찢긴 문장 조각을 모아 완성된 문장을 얻으세요. 문장 안에 '좌표'나 '번호'가 숨겨져 있습니다.</p>
+    <p><input id="p7in" type="text" placeholder="문장 해독 결과 숫자"/> <button onclick="p7check()">확인</button></p>
+    <div id="p7out" class="hint"></div>
+  </div>
+</section>
+
+<!-- PAGE 8 -->
+<section id="p8" class="page">
+  <div class="card">
+    <h2>Page 8 — QR 연결(구글폼 모사)</h2>
+    <p>이 페이지는 실제 교육용 구글폼으로 연결되는 QR이 있습니다. 예시 동작을 시뮬레이트하려면 아래 입력 박스에 구글폼에서 얻은 코드를 입력하세요.</p>
+    <p><input id="p8in" type="text" placeholder="구글폼 코드 입력"/> <button onclick="p8check()">확인</button></p>
+    <div id="p8out" class="hint"></div>
+  </div>
+</section>
+
+<!-- PAGE 9 -->
+<section id="p9" class="page">
+  <div class="card">
+    <h2>Page 9 — 합성 힌트</h2>
+    <p>지금까지 얻은 중간 숫자들을 조합/비교하는 페이지입니다. 각 퍼즐의 출력(숫자)을 넣으면 자동으로 '가능성 높은 최종 숫자' 후보를 제안합니다.</p>
+    <p>입력 예: p1,p2,p3,p4 (콤마로 구분)</p>
+    <p><input id="p9in" type="text" placeholder="예: 2,3,1,4"/> <button onclick="p9check()">결합</button></p>
+    <div id="p9out" class="hint"></div>
+  </div>
+</section>
+
+<!-- PAGE 10 -->
+<section id="p10" class="page">
+  <div class="card">
+    <h2>Page 10 — 최종 디지털 자물쇠</h2>
+    <p>모든 퍼즐의 결과로 확보한 네 자리(1~9)를 입력하세요. 정답을 맞히면 '정답 메시지'와 함께 교사용 안내(열쇠 위치)가 표시됩니다.</p>
+    <p><input id="codein" type="text" maxlength="4" placeholder="4자리 코드 입력"/> <button onclick="finalCheck()">열기</button></p>
+    <div id="finalOut" class="hint"></div>
+  </div>
+</section>
+
+<footer>
+  <div>호스팅: 이 HTML을 GitHub Pages/Netlify 등에 올려서 URL을 만들고, 구글 사이트에 임베드하거나 QR로 배포하세요.</div>
+</footer>
+
+<script>
+  // helper show
+  function show(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    location.hash = id;
+  }
+
+  // sample correct digits for each page — adjust to fit your physical clues
+  const answers = {p1:'2',p2:'3',p3:'7',p4:'1',p5:'4',p6:'8',p7:'6',p8:'9',p9:'5'};
+  const finalCode = '2371'; // set final 4-digit code here (edit if you align differently)
+
+  function p1check(){
+    const v = (document.getElementById('p1in').value||'').trim().toLowerCase();
+    // loose check: any non-empty → return sample digit
+    if(v){ document.getElementById('p1out').textContent = '성공: 숫자 조각 → ' + answers.p1; } else { document.getElementById('p1out').textContent = '입력값 필요'; }
+  }
+  function p2check(){
+    const v = document.getElementById('p2in').value.trim();
+    if(v==answers.p2){ document.getElementById('p2out').textContent = '정확! 숫자 조각 → ' + answers.p2; } else { document.getElementById('p2out').textContent = '틀렸습니다. 다시 확인'; }
+  }
+  function p3check(){ const v=document.getElementById('p3in').value.trim(); document.getElementById('p3out').textContent = v==answers.p3?('정답! 숫자→'+answers.p3):'틀렸음'; }
+  function p4check(){ const v=document.getElementById('p4in').value.trim(); document.getElementById('p4out').textContent = v==answers.p4?('정답! 숫자→'+answers.p4):'다시'; }
+  function p5check(){ const v=document.getElementById('p5in').value.trim(); document.getElementById('p5out').textContent = v==answers.p5?('정답! 숫자→'+answers.p5):'틀렸음'; }
+  function p6check(){ const v=document.getElementById('p6in').value.trim(); document.getElementById('p6out').textContent = v==answers.p6?('정답! 숫자→'+answers.p6):'틀렸음'; }
+  function p7check(){ const v=document.getElementById('p7in').value.trim(); document.getElementById('p7out').textContent = v==answers.p7?('정답! 숫자→'+answers.p7):'틀렸음'; }
+  function p8check(){ const v=document.getElementById('p8in').value.trim(); document.getElementById('p8out').textContent = v==answers.p8?('정답! 숫자→'+answers.p8):'틀렸음'; }
+  function p9check(){ const v=document.getElementById('p9in').value.trim(); document.getElementById('p9out').textContent = '결합 후보: '+ (v?v.split(',').reverse().join(''):'입력 필요'); }
+  function finalCheck(){ const v=document.getElementById('codein').value.trim(); const out=document.getElementById('finalOut'); if(v===finalCode){ out.innerHTML = '<strong style="color:#a6f3c5">탈출 성공! 실제 열쇠는 교탁 오른쪽 서랍에 있습니다.</strong>'; } else { out.textContent='오류: 코드 불일치'; } }
+
+  // navigate on load
+  window.addEventListener('load', ()=>{ const h=location.hash.replace('#',''); if(h && document.getElementById(h)) show(h); });
+</script>
+</body>
+</html>
